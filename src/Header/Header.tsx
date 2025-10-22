@@ -4,8 +4,8 @@ import NavLinks from "./NavLinks"
 
 const Header = () => {
     return (
-        <div className="flex w-full px-6 text-white bg-mine-shaft-950 h-20 justify-between items-center ">
-            <div className="flex gap-1 items-center text-bright-sun-400 cursor-pointer " ri>
+        <div className="flex w-full px-6 text-white bg-mine-shaft-950 h-20 justify-between items-center font-[Nunito] ">
+            <div className="flex gap-1 items-center text-bright-sun-400 cursor-pointer ">
                 <IconAnchor className="h-8 w-8" stroke={2.5} />
                 <div className="text-3xl font-semibold">
                     Job Hunt
