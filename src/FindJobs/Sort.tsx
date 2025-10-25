@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Combobox, useCombobox, } from '@mantine/core';
+import { ActionIcon, Combobox, useCombobox, } from '@mantine/core';
 import { IconAdjustments } from '@tabler/icons-react';
 
-const opt = ['Relevance', 'Most Recent', 'Salary (Low to High)' , 'Salary (High to Low)'];
+const opt = ['Relevance', 'Most Recent', 'Salary (Low to High)', 'Salary (High to Low)'];
 
 const Sort = () => {
     const [selectedItem, setSelectedItem] = useState<string | null>('Relevance');
@@ -20,15 +20,17 @@ const Sort = () => {
         <Combobox
             store={combobox}
             width={170}
-            position="bottom-start" 
+            position="bottom-start"
             onOptionSubmit={(val) => {
                 setSelectedItem(val);
                 combobox.closeDropdown();
             }}
         >
-            <Combobox.Target> 
-                <div onClick={()=>combobox.toggleDropdown()} className='border border-bright-sun-400 flex items-center px-2 py-1 gap-2 text-sm rounded-xl cursor-pointer' >
-                    {selectedItem} <IconAdjustments className='text-bright-sun-400  h-5 w-5' />
+            <Combobox.Target>
+                <div onClick={() => combobox.toggleDropdown()} className='border border-bright-sun-400 flex items-center px-2 py-1 gap-2 text-sm rounded-xl cursor-pointer' >
+                    {selectedItem}<ActionIcon color='bright-sun.4' variant='transparent' aria-label='Settings'>
+                        <IconAdjustments className='text-bright-sun-400  h-5 w-5' />
+                    </ActionIcon>
                 </div>
 
 
