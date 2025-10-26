@@ -39,24 +39,52 @@ const TalentCards = (props: any) => {
             <Divider size="sm" color="mine-shaft.7" />
 
             {/* Last section */}
-            <div className="flex justify-between">
-                <div className="font-bold text-mine-shaft-200">{props.expectedCtc}</div>
-                <div className="flex gap-1 text-xs items-center"><IconMapPin className="h-5 w-5" stroke={1.5} />{props.location}</div>
-            </div>
+            {
+                props.invited ? (
+                    <div className="flex gap-1 text-mine-shaft-200 text-sm items-center">
+                        <IconCalendarMonth stroke={1.5} />
+                        Interview: August 27, 2024 10:00 AM
+                    </div>
+                ) : (
+                    // Last Section
+                    <div className="flex justify-between">
+                        <div className="font-bold text-mine-shaft-200">{props.expectedCtc}</div>
+                        <div className="flex gap-1 text-xs items-center"><IconMapPin className="h-5 w-5" stroke={1.5} />{props.location}</div>
+                    </div>
+                )
+            }
+
+
             <Divider size="sm" color="mine-shaft.7" />
             <div className="flex [&>*]:w-1/2 [&>*]:p-1">
-                <Link to="/talent-profile">
-                    <Button color="bright-sun.4" variant="outline" fullWidth>Profile</Button>
-                </Link>
-                <div>
-                    {
-                        props.posted ? <Button onClick={open} rightSection={<IconCalendarMonth className="w-5 h-5" />} color="bright-sun.4" variant="light" fullWidth>Schedule</Button> :
-                            <Button color="bright-sun.4" variant="light" fullWidth>Message</Button>
-                    }
-                </div>
+                {
+                    !props.invited && <>
+                        <Link to="/talent-profile">
+                            <Button color="bright-sun.4" variant="outline" fullWidth>Profile</Button>
+                        </Link>
+                        <div>
+                            {
+                                props.posted ? <Button onClick={open} rightSection={<IconCalendarMonth className="w-5 h-5" />} color="bright-sun.4" variant="light" fullWidth>Schedule</Button> :
+                                    <Button color="bright-sun.4" variant="light" fullWidth>Message</Button>
+                            }
+                        </div>
+                    </>
+                }
+                {
+                    props.invited && <>
+                        <div>
+                            <Button color="bright-sun.4" variant="outline" fullWidth>Accept</Button>
+
+                        </div>
+                        <div>
+                            <Button color="bright-sun.4" variant="light" fullWidth>Reject</Button>
+
+                        </div>
+                    </>
+                }
             </div>
 
-            <Modal  opened={opened} onClose={close} title="Schedule Interview" centered>
+            <Modal opened={opened} onClose={close} title="Schedule Interview" centered>
                 {/* Modal content */}
                 <div className="flex flex-col gap-4">
                     <DateInput minDate={new Date()} value={value} onChange={setValue} label="Date" placeholder="Enter date" />
