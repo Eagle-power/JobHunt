@@ -1,4 +1,4 @@
-import { Avatar, Indicator } from "@mantine/core"
+import {  Indicator } from "@mantine/core"
 import { IconAnchor, IconBell, IconSettings2 } from "@tabler/icons-react"
 import NavLinks from "./NavLinks"
 import { useLocation, useNavigate } from "react-router-dom"

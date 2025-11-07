@@ -1,9 +1,16 @@
-import { Divider } from "@mantine/core"
-import { IconBriefcase, IconMapPin } from "@tabler/icons-react"
+import { ActionIcon, Divider } from "@mantine/core"
+import { IconBriefcase, IconMapPin, IconPencil } from "@tabler/icons-react"
 import ExpCard from "./ExpCard"
 import CertiCard from "./CertiCard"
+import { useState } from "react"
 
 const Profile = (props: any) => {
+    const [edit , setEdit] = useState([false,false,false,false,false]);
+    const handleEdit=(index:number)=>{
+        const newEdit = [...edit];
+        newEdit[index] = !newEdit[index];
+        setEdit(newEdit); 
+    }
     return (
 
         <div className="w-4/5 mx-auto">
@@ -13,7 +20,11 @@ const Profile = (props: any) => {
 
             </div>
             <div className="px-3 mt-16">
-                <div className="text-3xl font-semibold flex justify-between">{props.name} </div>
+                <div className="text-3xl font-semibold flex justify-between">{props.name}
+                    <ActionIcon onClick={()=>handleEdit(0)} size="lg" variant="subtle" color="bright-sun.4"  >
+                        <IconPencil className="h-4/5 w-4/5"  />
+                    </ActionIcon>
+                </div>
                 <div className="text-xl flex gap-1 items-center"><IconBriefcase className="h-5 w-5" stroke={1.5} />{props.role}  &bull; {props.company}</div>
                 <div className="flex gap-1 text-lg items-center text-mine-shaft-300"><IconMapPin className="h-5 w-5" stroke={1.5} />{props.location}</div>
 

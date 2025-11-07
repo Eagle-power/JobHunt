@@ -15,8 +15,8 @@ const JobCategory = () => {
             >
                 {
                     jobCategory.map((category, idx) => (
-                        <Carousel.Slide>
-                            <div key={idx} className="flex flex-col items-center w-64 gap-2 my-5  border border-bright-sun-400 p-5 rounded-lg hover:cursor-pointer hover:shadow-[0_0_5px_2px_black] !shadow-bright-sun-300 transition duration-300 ease-in-out">
+                        <Carousel.Slide key={idx}>
+                            <div  className="flex flex-col items-center w-64 gap-2 my-5  border border-bright-sun-400 p-5 rounded-lg hover:cursor-pointer hover:shadow-[0_0_5px_2px_black] !shadow-bright-sun-300 transition duration-300 ease-in-out">
                                 <div className="p-2 bg-bright-sun-300 rounded-full">
                                     <img className="h-8 w-8" src={`/Category/${category.name}.png`} alt={category.name} />
                                 </div>
