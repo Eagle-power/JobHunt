@@ -1,6 +1,7 @@
-import PostedJob from '../PostedJob/PostedJob'
-import PostedJobDesc from '../PostedJob/PostedJobDesc'
+import PostedJob from "../Component/PostedJob/PostedJob"
+import PostedJobDesc from "../Component/PostedJob/PostedJobDesc"
 
+ 
 const PostedJobPage = () => {
     return (
         <div className="min-h-[100vh] px-4 bg-mine-shaft-950 font-['Nunito']"> 

@@ -1,7 +1,8 @@
-import { IconAnchor } from "@tabler/icons-react"
-import SignUp from "../SignUpLogin/SignUp"
-import Login from "../SignUpLogin/Login"
+import { IconAnchor, IconArrowLeft } from "@tabler/icons-react"
 import { useLocation, useNavigate } from "react-router-dom"
+import Login from "../Component/SignUpLogin/Login";
+import SignUp from "../Component/SignUpLogin/SignUp";
+import { Button } from "@mantine/core";
 
 const SignUpPage = () => {
     const location = useLocation();
@@ -9,14 +10,17 @@ const SignUpPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="h-screen bg-mine-shaft-950 font-['Nunito'] flex relative overflow-hidden">
+        <div className="h-screen bg-mine-shaft-950 font-['Nunito'] flex relative overflow-hidden ">
+            <Button leftSection={<IconArrowLeft size={20} />} onClick={() => navigate("/")} my="md" className="!absolute left-5 z-50"  color="bright-sun.4" variant="light" >
+                Home
+            </Button>
 
-            {/* 1. Login Panel (Base Layer) */} 
+            {/* 1. Login Panel (Base Layer) */}
             <div className="w-1/2 h-full  flex-shrink-0 relative z-10">
                 <Login />
             </div>
 
-            {/* 2. SignUp Panel (Base Layer) */} 
+            {/* 2. SignUp Panel (Base Layer) */}
             <div className="w-1/2 h-full flex-shrink-0 relative z-10">
                 <SignUp />
             </div>
@@ -35,7 +39,7 @@ const SignUpPage = () => {
             >
                 <div className="flex gap-1 items-center text-bright-sun-400 " >
                     <IconAnchor className="h-16 w-16" stroke={2.5} />
-                    <div className="text-6xl font-semibold cursor-pointer" onClick={()=>navigate("/")}> Job Hunt </div>
+                    <div className="text-6xl font-semibold cursor-pointer" onClick={() => navigate("/")}> Job Hunt </div>
                 </div>
                 <div className="text-3xl text-mine-shaft-200 font-semibold">Find the Job made for you</div>
             </div>

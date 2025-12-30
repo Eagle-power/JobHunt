@@ -1,9 +1,9 @@
 import { Button } from "@mantine/core"
 import { IconArrowLeft } from "@tabler/icons-react"
-import { Link } from "react-router-dom"
-import Profile from "../TalentProfile/Profile"
-import { profile } from "../Data/TalentData"
-import RecommendTalent from "../TalentProfile/RecommendTalent"
+import { Link } from "react-router-dom" 
+import { profile } from "../Data/TalentData" 
+import Profile from "../Component/TalentProfile/Profile"
+import RecommendTalent from "../Component/TalentProfile/RecommendTalent"
 
 const TalentProfile = () => {
     return (

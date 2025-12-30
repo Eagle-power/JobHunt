@@ -1,5 +1,6 @@
-import JobHistory from "../JobHistory/JobHistory"
+import JobHistory from "../Component/JobHistory/JobHistory"
 
+ 
 const JobHistoryPage = () => {
     return (
         <div className="min-h-[100vh] px-4  bg-mine-shaft-950 font-['Nunito']"> 

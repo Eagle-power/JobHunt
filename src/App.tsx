@@ -3,12 +3,13 @@ import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
 import '@mantine/tiptap/styles.css';
 import '@mantine/dates/styles.css';
+import '@mantine/notifications/styles.css';
 import { createTheme, Divider, MantineProvider } from '@mantine/core';
 import HomePage from './Pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FindJobs from './Pages/FindJobs';
-import Header from './Header/Header';
-import Footer from './Footer/Footer';
+import Header from './Component/Header/Header';
+import Footer from './Component/Footer/Footer';
 import FindTalent from './Pages/FindTalent';
 import TalentProfile from './Pages/TalentProfile';
 import PostJobPage from './Pages/PostJobPage';
@@ -19,6 +20,7 @@ import PostedJobPage from './Pages/PostedJobPage';
 import JobHistoryPage from './Pages/JobHistoryPage';
 import SignUpPage from './Pages/SignUpPage';
 import ProfilePage from './Pages/ProfilePage';
+import { Notifications } from '@mantine/notifications';
 
 function App() {
   const theme = createTheme({
@@ -32,6 +34,7 @@ function App() {
   })
   return (
     <MantineProvider defaultColorScheme='dark' theme={theme} >
+        <Notifications position='bottom-center' limit={1} autoClose={1500} zIndex={1000} />
       <BrowserRouter>
         <div className='relative'>
           <Header />

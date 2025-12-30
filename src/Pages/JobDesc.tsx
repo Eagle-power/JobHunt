@@ -1,9 +1,9 @@
 import { Button } from "@mantine/core"
 import { IconArrowLeft } from "@tabler/icons-react"
 import { Link } from "react-router-dom"  
-import JobDescription from "../JobDesc/JobDescription"
-import RecommendedJob from "../JobDesc/RecommendedJob"
-
+import JobDescription from "../Component/JobDesc/JobDescription"
+import RecommendedJob from "../Component/JobDesc/RecommendedJob"
+ 
 const JobDesc = () => {
     return (
         <div className="min-h-[100vh] p-4 bg-mine-shaft-950 font-['Nunito']">
