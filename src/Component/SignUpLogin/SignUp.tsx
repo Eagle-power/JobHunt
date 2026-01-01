@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { registerUser } from "../../Services/UserService";
 import { signupValidation } from "../../Services/FormValidation";
 import { notifications } from "@mantine/notifications";
+import { errorNotification, successNotification } from "../../Services/NotificationService";
 
 const form = {
     name: "",
@@ -14,11 +15,18 @@ const form = {
     accountType: "APPLICANT"
 }
 
-const SignUp = () => {
+type SignUpProps = {
+    loading: boolean;
+    setLoading: (v: boolean) => void;
+};
+
+
+const SignUp = ({ loading, setLoading }: SignUpProps) => {
 
     const [data, setData] = useState<{ [key: string]: string }>(form);
     const [formError, setFormError] = useState<{ [key: string]: string }>(form);
     const navigate = useNavigate();
+
 
 
     const handleChange = (event: any) => {
@@ -42,6 +50,7 @@ const SignUp = () => {
     }
 
     const handleSubmit = () => {
+        setLoading(true);
         let valid = true;
         let newFormError: { [key: string]: string } = {};
 
@@ -53,36 +62,26 @@ const SignUp = () => {
         }
         setFormError(newFormError);
 
+        if (!valid) {
+            setLoading(false);
+            return;
+        }
 
         if (valid) {
             registerUser(data).then((res) => {
                 console.log(res)
                 setData(form);
 
-                notifications.show({
-                    title: "Registered Successfully",
-                    message: "Redirecting to login page...",
-                    withCloseButton: true,
-                    icon: <IconCheck style={{ width: "90%", height: "90%" }} />,
-                    color: "teal",
-                    withBorder: true,
-                    className: "!border-green-500"
-                })
-                setTimeout(()=>{
+                successNotification("Registration Successfully", "Redirecting to Login page.")
+                setTimeout(() => {
+                    setLoading(false);
                     navigate("/login");
                 }, 4000)
 
             }).catch((err) => {
+                setLoading(false);
                 console.log(err)
-                notifications.show({
-                    title: "Registration Failed",
-                    message: err.response.data.errorMessage,
-                    withCloseButton: true,
-                    icon: <IconX style={{ width: "90%", height: "90%" }} />,
-                    color: "red",
-                    withBorder: true,
-                    className: "!border-red-500"
-                })
+                errorNotification("Registration Failed", err.response.data.errorMessage)
             })
         }
 
@@ -109,8 +108,8 @@ const SignUp = () => {
                 </Group>
             </Radio.Group>
             <Checkbox autoContrast size="md" label={<>I accept{' '}<Anchor>Terms & conditions</Anchor></>} />
-            <Button onClick={handleSubmit} autoContrast size="xl" className="text-xl !font-semibold !rounded-xl" variant="filled">Sign up</Button>
-            <div className="mx-auto text-xl">Already Have an account? <span onClick={()=>{navigate("/login") ; setData(form) ; setFormError(form)}} className="text-bright-sun-400 hover:underline cursor-pointer">Login</span></div>
+            <Button  loading={loading} onClick={handleSubmit} autoContrast size="xl" className="text-xl !font-semibold !rounded-xl" variant="filled">Sign up</Button>
+            <div className="mx-auto text-xl">Already Have an account? <span onClick={() => { navigate("/login"); setData(form); setFormError(form) }} className="text-bright-sun-400 hover:underline cursor-pointer">Login</span></div>
         </div>
     )
 }

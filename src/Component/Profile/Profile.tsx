@@ -1,175 +1,85 @@
-import { ActionIcon, Divider, TagsInput, Textarea } from "@mantine/core"
-import { IconBriefcase, IconDeviceFloppy, IconMapPin, IconPencil, IconPlus } from "@tabler/icons-react"
-import ExpCard from "./ExpCard"
-import CertiCard from "./CertiCard"
-import { useState } from "react"
-import SelectInput from "./SelectInput"
-import fields from "../../Data/Profile"
-import ExpInput from "./ExpInput"
-import CertiInput from "./CertiInput"
+import { Avatar, Divider, FileInput, Overlay } from "@mantine/core"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { getProfile } from "../../Services/ProfileService"
+import Info from "./Info"
+import { changeProfile, setProfile } from "../../Slices/ProfileSlice"
+import About from "./About"
+import Skills from "./Skills"
+import Experience from "./Experience"
+import Certificate from "./Certificate"
+import { useHover } from "@mantine/hooks"
+import { IconEdit } from "@tabler/icons-react"
+import { successNotification } from "../../Services/NotificationService"
 
 const Profile = (props: any) => {
-    const select = fields;
-    const [edit, setEdit] = useState([false, false, false, false, false]);
-    const [about, setAbout] = useState('Hello this is my About section....');
-    const [skills, setSkills] = useState(["React", "SpringBoot", "MongoDB", "HTML", "CSS", "JavaScript", "Node.js", "Express", "MySQL", "Python", "Django", "Figma", "Sketch", "Docker", "AWS"]);
-    const [addExp, setAddExp] = useState(false);
-    const [addCerti, setAddCerti] = useState(false);
+    const dispatch = useDispatch();
+    const profile = useSelector((state : any)=>state.profile);
+    const user = useSelector((state: any) => state.user);
+    const { hovered, ref } = useHover();
 
-
-    const handleEdit = (index: number) => {
-        const newEdit = [...edit];
-        newEdit[index] = !newEdit[index];
-        setEdit(newEdit);
+    const handleFileChange  =async  (image : any)=>{
+        let picture:any = await getBase64(image);
+        let updatedProfile = {...profile , picture:picture.split(',')[1]}
+        dispatch(changeProfile(updatedProfile));
+        successNotification("Success", "Profile Photo Updated Successfully.");
     }
+    const getBase64=(file:any)=>{
+        return new Promise((resolve , reject)=>{
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload=()=>resolve(reader.result);
+            reader.onerror=error=>reject(error);
+        })
+    }
+
+     
+
+
     return (
-
         <div className="w-4/5 mx-auto">
-            <div className="relative">
-                <img className="rounded-t-2xl" src="/Profile/banner.jpg" alt="" />
-                <img className="h-48  w-48 -bottom-1/4 left-3  border-mine-shaft-950 border-8  absolute rounded-full" src="/Avatar.png" alt="" />
+            <div className="">
+                {/* banner */}
+                <div className="relative">
+                    <img className="rounded-t-2xl" src="/Profile/banner.jpg" alt="" />
 
-            </div>
-            <div className="px-3 mt-16">
-                <div className="text-3xl font-semibold flex justify-between">{props.name}
-                    <ActionIcon onClick={() => handleEdit(0)} size="lg" variant="subtle" color="bright-sun.4"  >
-                        {
-                            edit[0] ? <IconDeviceFloppy className="h-4/5 w-4/5" /> : <IconPencil className="h-4/5 w-4/5" />
-                        }
-                    </ActionIcon>
-                </div>
+                    <div ref={ref} className="flex items-center justify-center  absolute -bottom-1/4 left-3">
+                        <Avatar className="!h-48  !w-48   border-mine-shaft-950 border-8  rounded-full" src={profile.picture ?`data:image/jpeg;base64,${profile.picture}`: "/Avatar.png"} alt={user.name} />
 
-                {
-                    edit[0] ?
-                        <>
-                            <div className="flex  gap-10 [&>*]:w-1/2">
-                                <SelectInput {...select[0]} />
-                                <SelectInput {...select[1]} />
-                            </div>
-                            <SelectInput {...select[2]} />
-                        </> :
-                        <>
-                            <div className="text-xl flex gap-1 items-center"><IconBriefcase className="h-5 w-5" stroke={1.5} />{props.role}  &bull; {props.company}</div>
-                            <div className="flex gap-1 text-lg items-center text-mine-shaft-300"><IconMapPin className="h-5 w-5" stroke={1.5} />{props.location}</div>
-
-                        </>
-                }
-            </div>
-
-            <Divider mx="xs" size="sm" my="xl" />
-
-            <div className="px-3">
-                <div className="flex justify-between text-2xl font-semibold mb-3">About
-                    <ActionIcon onClick={() => handleEdit(1)} size="lg" variant="subtle" color="bright-sun.4"  >
-                        {
-                            edit[1] ? <IconDeviceFloppy className="h-4/5 w-4/5" /> : <IconPencil className="h-4/5 w-4/5" />
-                        }
-                    </ActionIcon>
-                </div>
-                {
-                    edit[1] ?
-                        <>
-                            <Textarea
-                                value={about}
-                                autosize
-                                placeholder="Enter about yourself..."
-                                minRows={3}
-                                onChange={(event) => setAbout(event.currentTarget.value)}
+                        {hovered && <Overlay className="!rounded-full" color="#000" backgroundOpacity={0.40} />}
+                        {hovered && <IconEdit className="absolute z-[300] !h-16   !w-16 hover:cursor-pointer  " />}
+                        {hovered &&
+                            <FileInput
+                                onChange={handleFileChange}
+                                className="absolute   z-[301] [&_*]:!rounded-full h-full [&_*]:!h-full w-full [&_div]:text-transparent"
+                                variant="transparent"
+                                size="lg"
+                                radius="xl"
+                                accept="image/png,image/jpeg,image/jpg"
                             />
-                        </> :
-                        <>
-                            <div className="text-sm text-mine-shaft-300  text-justify">
-                                {props.about}
-                            </div>
-                        </>
-                }
-
-
-            </div>
-
-            <Divider mx="xs" size="sm" my="xl" />
-
-            <div className="px-3">
-                <div className="flex justify-between text-2xl font-semibold mb-3">Skills
-                    <ActionIcon onClick={() => handleEdit(2)} size="lg" variant="subtle" color="bright-sun.4"  >
-                        {
-                            edit[2] ? <IconDeviceFloppy className="h-4/5 w-4/5" /> : <IconPencil className="h-4/5 w-4/5" />
-                        }
-                    </ActionIcon>
-                </div>
-
-                {
-                    edit[2] ? <TagsInput
-                        value={skills}
-                        onChange={setSkills}
-                        placeholder="Add Skills"
-                        splitChars={[',', ' ', '|']}
-                    /> : <div className="flex flex-wrap gap-2">
-                        {
-                            skills?.map((skill: any, idx: any) => (
-                                <div key={idx} className="bg-bright-sun-300 text-sm font-medium bg-opacity-15 rounded-3xl text-bright-sun-400 px-3 py-1">{skill}</div>
-
-                            ))
                         }
                     </div>
-                }
-
-
-
-            </div>
-
-            <Divider mx="xs" size="sm" my="xl" />
-
-            <div className="px-3">
-                <div className="flex justify-between text-2xl font-semibold mb-5">Experience
-                    <div className="flex gap-3">
-                        <ActionIcon onClick={() => setAddExp(true)} size="lg" variant="subtle" color="bright-sun.4"  >
-                            <IconPlus className="h-4/5 w-4/5" />
-                        </ActionIcon>
-
-                        <ActionIcon onClick={() => handleEdit(3)} size="lg" variant="subtle" color="bright-sun.4"  >
-                            {
-                                edit[3] ? <IconDeviceFloppy className="h-4/5 w-4/5" /> : <IconPencil className="h-4/5 w-4/5" />
-                            }
-                        </ActionIcon>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-8">
-                    {
-                        props.experience.map((exp: any, idx: any) => <ExpCard key={idx} {...exp} edit={edit[3]} />)
-                    }
-                    {
-                        addExp && <ExpInput add setEdit={setAddExp} />
-                    }
 
                 </div>
 
-            </div>
 
-            <Divider mx="xs" size="sm" my="xl" />
+                <Info />
 
-            <div className="px-3">
-                <div className="flex justify-between text-2xl font-semibold mb-5">Certification
-                    <div className="flex gap-3">
-                        <ActionIcon onClick={() => setAddCerti(true)} size="lg" variant="subtle" color="bright-sun.4"  >
-                            <IconPlus className="h-4/5 w-4/5" />
-                        </ActionIcon>
+                <Divider mx="xs" size="sm" my="xl" />
 
-                        <ActionIcon onClick={() => handleEdit(4)} size="lg" variant="subtle" color="bright-sun.4"  >
-                            {
-                                edit[4] ? <IconDeviceFloppy className="h-4/5 w-4/5" /> : <IconPencil className="h-4/5 w-4/5" />
-                            }
-                        </ActionIcon>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-8">
-                    {
-                        props.certifications.map((certi: any, idx: any) => <CertiCard key={idx} edit={edit[4]} {...certi} />)
-                    }
-                    {
-                       addCerti && <CertiInput setEdit={setAddCerti} />
-                    }
-                </div>
+                <About />
+
+                <Divider mx="xs" size="sm" my="xl" />
+
+                <Skills />
+
+                <Divider mx="xs" size="sm" my="xl" />
+
+                <Experience />
+
+                <Divider mx="xs" size="sm" my="xl" />
+
+                <Certificate />
             </div>
         </div>
     )

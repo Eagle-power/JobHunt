@@ -2,27 +2,42 @@ import { IconAnchor, IconArrowLeft } from "@tabler/icons-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Login from "../Component/SignUpLogin/Login";
 import SignUp from "../Component/SignUpLogin/SignUp";
-import { Button } from "@mantine/core";
+import { Button, LoadingOverlay } from "@mantine/core";
+import { useState } from "react";
 
 const SignUpPage = () => {
     const location = useLocation();
     const isSignUp = location.pathname === '/signup';
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
+
     return (
         <div className="h-screen bg-mine-shaft-950 font-['Nunito'] flex relative overflow-hidden ">
-            <Button leftSection={<IconArrowLeft size={20} />} onClick={() => navigate("/")} my="md" className="!absolute left-5 z-50"  color="bright-sun.4" variant="light" >
+            <LoadingOverlay
+                visible={loading}
+                zIndex={100}
+                overlayProps={{ blur: 2 }}
+                loaderProps={{ color: "bright-sun.4", type: "bars" }}
+                styles={{
+                    overlay: {
+                        position: "fixed",
+                        inset: 0,
+                    },
+                }}
+            />
+            <Button leftSection={<IconArrowLeft size={20} />} onClick={() => navigate("/")} my="md" className="!absolute left-5 z-50" color="bright-sun.4" variant="light" >
                 Home
             </Button>
 
             {/* 1. Login Panel (Base Layer) */}
             <div className="w-1/2 h-full  flex-shrink-0 relative z-10">
-                <Login />
+                <Login loading={loading}  setLoading={setLoading} />
             </div>
 
             {/* 2. SignUp Panel (Base Layer) */}
             <div className="w-1/2 h-full flex-shrink-0 relative z-10">
-                <SignUp />
+                <SignUp loading={loading}  setLoading={setLoading} />
             </div>
 
             {/* 3. Branding Panel (Top Layer) */}

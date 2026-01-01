@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios" 
 
 
 const baseUrl = "http://localhost:8080/users/"
@@ -19,5 +19,30 @@ const loginUser= async(login:any)=>{
     })
 }
 
+const sendOtp = async (email : any)=>{
+    return axios.post(`${baseUrl}sendOtp/${email}`)
+    .then(res=>res.data)
+    .catch(error =>{
+        throw error;
+    })
+}
 
-export {registerUser , loginUser};
+const verifyOtp = async (email : any , otp : any) =>{
+    return axios.get(`${baseUrl}verifyOtp/${email}/${otp}`)
+    .then(res=>res.data)
+    .catch(error =>{
+        throw error;
+    })
+}
+
+
+const changePass = async (email : String , password : String) =>{
+    return axios.post(`${baseUrl}changePass`,{email , password})
+    .then(res=>res.data)
+    .catch(error=>{
+        throw error;
+    })
+}
+
+
+export {registerUser , loginUser , sendOtp , verifyOtp , changePass};
