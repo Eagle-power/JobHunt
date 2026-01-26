@@ -1,7 +1,7 @@
 import { Button } from "@mantine/core"
 import { useState } from "react"
 import ExpInput from "./ExpInput";
-import { formateData } from "../../Services/Utilities";
+import { formateDate } from "../../Services/Utilities";
 import { useDispatch, useSelector } from "react-redux";
 import { changeProfile } from "../../Slices/ProfileSlice";
 import { successNotification } from "../../Services/NotificationService";
@@ -22,7 +22,7 @@ const ExpCard = (props: any) => {
     return (
         !edit ? <div className="flex flex-col gap-2">
             {/* top section */}
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-2 flex-wrap">
                 <div className="flex gap-2 items-center">
                     <div className="p-2 bg-mine-shaft-800 rounded-md">
                         <img className="h-7" src={`/Icons/${props.company}.png`} alt={props.company} />
@@ -33,11 +33,11 @@ const ExpCard = (props: any) => {
                     </div>
                 </div>
 
-                <div className="text-sm text-mine-shaft-300">{formateData(props.startDate)} - {props.working ? "Present" : formateData(props.endDate)}</div>
+                <div className="text-sm text-mine-shaft-300">{formateDate(props.startDate)} - {props.working ? "Present" : formateDate(props.endDate)}</div>
             </div>
 
             {/* Description */}
-            <div className="text-sm text-mine-shaft-300 text-justify">
+            <div className="text-sm xs-mx:text-xs text-mine-shaft-300 text-justify">
                 {props.description}
             </div>
             {

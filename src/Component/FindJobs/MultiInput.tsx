@@ -1,13 +1,17 @@
 import { Checkbox, Combobox, Group, Input, Pill, PillsInput, useCombobox } from '@mantine/core';
 import { IconSelector } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateFilter } from '../../Slices/FilterSlice';
 
- 
-const MultiInput = (props:any) => {
 
-    useEffect(()=>{
+const MultiInput = (props: any) => {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
         setData(props.options);
-    },[])
+    }, [])
 
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
@@ -21,22 +25,45 @@ const MultiInput = (props:any) => {
     const exactOptionMatch = data.some((item) => item === search);
 
 
+    // const handleValueSelect = (val: string) => {
+    //     setSearch('');
+
+    //     if (val === '$create') {
+    //         setData((current) => [...current, search]);
+    //         setValue((current) => [...current, search]);
+    //         dispatch(updateFilter({ [props.title]: [...value, search] }))
+    //     } else {
+    //         dispatch(updateFilter({ [props.title]: value.includes(val) ? value.filter((v) => v !== val) : [value, val] }))
+    //         setValue((current) =>
+    //             current.includes(val) ? current.filter((v) => v !== val) : [...current, val]
+    //         );
+    //     }
+    // };
+
+
     const handleValueSelect = (val: string) => {
         setSearch('');
 
+        let updatedValue: string[];
+
         if (val === '$create') {
+            updatedValue = [...value, search];
             setData((current) => [...current, search]);
-            setValue((current) => [...current, search]);
         } else {
-            setValue((current) =>
-                current.includes(val) ? current.filter((v) => v !== val) : [...current, val]
-            );
+            updatedValue = value.includes(val)
+                ? value.filter((v) => v !== val)
+                : [...value, val];
         }
+
+        setValue(updatedValue);
+        dispatch(updateFilter({ [props.title]: updatedValue }));
     };
 
-    const handleValueRemove = (val: string) =>
+    
+    const handleValueRemove = (val: string) => {
+        dispatch(updateFilter({ [props.title]: value.filter((v) => v !== val) }))
         setValue((current) => current.filter((v) => v !== val));
-
+    }
     const values = value
         .slice(0, 1)
         .map((item) => (
@@ -46,23 +73,23 @@ const MultiInput = (props:any) => {
         ));
 
     const options = data
-    .filter((item) => item.toLowerCase().includes(search.trim().toLowerCase()))
-    .map((item) => (
-        <Combobox.Option value={item} key={item} active={value.includes(item)}>
-            <Group gap="sm">
-                <Checkbox
-                    size='xs'
-                    color='bright-sun.4'
-                    checked={value.includes(item)}
-                    onChange={() => { }}
-                    aria-hidden
-                    tabIndex={-1}
-                    style={{ pointerEvents: 'none' }}
-                />
-                <span className='text-mine-shaft-300'>{item}</span>
-            </Group>
-        </Combobox.Option>
-    ));
+        .filter((item) => item.toLowerCase().includes(search.trim().toLowerCase()))
+        .map((item) => (
+            <Combobox.Option value={item} key={item} active={value.includes(item)}>
+                <Group gap="sm">
+                    <Checkbox
+                        size='xs'
+                        color='bright-sun.4'
+                        checked={value.includes(item)}
+                        onChange={() => { }}
+                        aria-hidden
+                        tabIndex={-1}
+                        style={{ pointerEvents: 'none' }}
+                    />
+                    <span className='text-mine-shaft-300'>{item}</span>
+                </Group>
+            </Combobox.Option>
+        ));
     return (
         <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
             <Combobox.DropdownTarget>
@@ -84,7 +111,7 @@ const MultiInput = (props:any) => {
                             <Input.Placeholder className='!text-mine-shaft-300'>{props.title}</Input.Placeholder>
                         )}
 
-                         
+
                     </Pill.Group>
                 </PillsInput>
             </Combobox.DropdownTarget>
@@ -93,7 +120,7 @@ const MultiInput = (props:any) => {
                 <Combobox.Search
                     value={search}
                     onChange={(event) => setSearch(event.currentTarget.value)}
-                    placeholder="Search groceries"
+                    placeholder="Start Typing... or select below"
                 />
                 <Combobox.Options>
                     {options}

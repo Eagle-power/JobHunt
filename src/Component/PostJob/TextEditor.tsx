@@ -4,11 +4,13 @@ import StarterKit from '@tiptap/starter-kit';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
-import { RichTextEditor, Link } from '@mantine/tiptap';
-import { content } from '../../Data/PostJob';
+import { RichTextEditor, Link } from '@mantine/tiptap'; 
+import { useEffect } from 'react';
 
 
-const TextEditor = () => { 
+const TextEditor = (props:any) => { 
+
+
     const editor = useEditor({
         shouldRerenderOnTransaction: true,
         extensions: [
@@ -19,8 +21,15 @@ const TextEditor = () => {
             Highlight,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
-        content,
+        content:props.form.getValues().description,
+        onUpdate({editor}){
+            props.form.setFieldValue('description', editor.getHTML());
+        }
     });
+
+    useEffect(()=>{
+        editor?.commands.setContent(props.data);
+    },[props.data])
 
     return (
         <RichTextEditor editor={editor}>

@@ -1,10 +1,10 @@
-import axios from "axios" 
+ 
+import axiosInstance from "../Interceptor/AxiosInterceptor";
 
+ 
 
-const baseUrl = "http://localhost:8080/profiles/"
-
-const getProfile= async(id : number )=>{
-    return axios.get(`${baseUrl}get/${id}`)
+const getProfile= async(id : any )=>{
+    return axiosInstance.get(`/profiles/get/${id}`)
     .then(res=>res.data)
     .catch(error=>{
         throw error;
@@ -12,11 +12,17 @@ const getProfile= async(id : number )=>{
 }
 
 const updateProfile= async(profile : any)=>{
-    return axios.put(`${baseUrl}update` , profile)
+    return axiosInstance.put(`/profiles/update` , profile)
     .then(res=>res.data)
     .catch(error=>{
         throw error;
     })
 }
 
-export {getProfile , updateProfile}
+const getAllProfiles = async()=>{
+    return axiosInstance.get(`/profiles/getAll`)
+    .then(result=>result.data)
+    .catch(error =>{throw error;})
+}
+
+export {getProfile , updateProfile , getAllProfiles}

@@ -1,33 +1,41 @@
 import { useState } from 'react';
 import { ActionIcon, Combobox, useCombobox, } from '@mantine/core';
 import { IconAdjustments } from '@tabler/icons-react';
+import { useDispatch } from 'react-redux';
+import { updateSort } from '../../Slices/SortSlice';
 
 const opt = ['Relevance', 'Most Recent', 'Salary (Low to High)', 'Salary (High to Low)'];
+const talentSort = ['Relevance', 'Experience (Low to High)', 'Experience (High to Low)'];
 
-const Sort = () => {
+const Sort = (props: any) => {
+    const dispatch = useDispatch();
     const [selectedItem, setSelectedItem] = useState<string | null>('Relevance');
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
     });
 
-    const options = opt.map((item) => (
+    const options = props.sort == "job" ? opt.map((item) => (
         <Combobox.Option className='text-xs' value={item} key={item}>
             {item}
         </Combobox.Option>
-    ));
-
+    )) : talentSort.map((item) => (
+        <Combobox.Option className='text-xs' value={item} key={item}>
+            {item}
+        </Combobox.Option>
+    ))
     return (
         <Combobox
             store={combobox}
             width={170}
             position="bottom-start"
             onOptionSubmit={(val) => {
+                dispatch(updateSort(val))
                 setSelectedItem(val);
                 combobox.closeDropdown();
             }}
         >
             <Combobox.Target>
-                <div onClick={() => combobox.toggleDropdown()} className='border border-bright-sun-400 flex items-center px-2 py-1 gap-2 text-sm rounded-xl cursor-pointer' >
+                <div onClick={() => combobox.toggleDropdown()} className='border border-bright-sun-400 flex items-center xsm-mx:mt-2 px-2 py-1 gap-2 text-sm xs-mx:text-xs xs-mx:px-1 xs-ms:py-0 rounded-xl cursor-pointer' >
                     {selectedItem}<ActionIcon color='bright-sun.4' variant='transparent' aria-label='Settings'>
                         <IconAdjustments className='text-bright-sun-400  h-5 w-5' />
                     </ActionIcon>

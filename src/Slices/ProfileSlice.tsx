@@ -3,7 +3,9 @@ import { updateProfile } from "../Services/ProfileService";
 
 const ProfileSlice = createSlice({
     name : "profile",
-    initialState : {},
+    initialState : {
+        
+    },
     reducers:{
         changeProfile : (state , action)=>{
             state = updateProfile(action.payload);

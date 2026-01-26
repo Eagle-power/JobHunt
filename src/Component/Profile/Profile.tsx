@@ -11,6 +11,7 @@ import Certificate from "./Certificate"
 import { useHover } from "@mantine/hooks"
 import { IconEdit } from "@tabler/icons-react"
 import { successNotification } from "../../Services/NotificationService"
+import { getBase64 } from "../../Services/Utilities"
 
 const Profile = (props: any) => {
     const dispatch = useDispatch();
@@ -24,27 +25,24 @@ const Profile = (props: any) => {
         dispatch(changeProfile(updatedProfile));
         successNotification("Success", "Profile Photo Updated Successfully.");
     }
-    const getBase64=(file:any)=>{
-        return new Promise((resolve , reject)=>{
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload=()=>resolve(reader.result);
-            reader.onerror=error=>reject(error);
-        })
-    }
+    
 
      
 
 
     return (
-        <div className="w-4/5 mx-auto">
+        <div className="w-4/5 lg-mx:w-full mx-auto">
             <div className="">
                 {/* banner */}
-                <div className="relative">
-                    <img className="rounded-t-2xl" src="/Profile/banner.jpg" alt="" />
+                <div className="relative px-5">
+                    <img className="rounded-t-2xl xs-mx:h-32" src="/Profile/banner.jpg" alt="" />
 
-                    <div ref={ref} className="flex items-center justify-center  absolute -bottom-1/4 left-3">
-                        <Avatar className="!h-48  !w-48   border-mine-shaft-950 border-8  rounded-full" src={profile.picture ?`data:image/jpeg;base64,${profile.picture}`: "/Avatar.png"} alt={user.name} />
+                    <div ref={ref} className="flex items-center justify-center  absolute -bottom-1/4 md-mx:-bottom-10 sm-mx:-bottom-16 left-6">
+                        <Avatar className="!h-48  !w-48 md-mx:!w-40 md-mx:!h-40 
+                                            sm-mx:!h-36 sm-mx:!w-36 xs-mx:!h-32 xs-mx:!w-32 
+                                        border-mine-shaft-950 border-8  rounded-full" 
+                                src={profile.picture ?`data:image/jpeg;base64,${profile.picture}`: "/Avatar.png"} 
+                                alt={user.name} />
 
                         {hovered && <Overlay className="!rounded-full" color="#000" backgroundOpacity={0.40} />}
                         {hovered && <IconEdit className="absolute z-[300] !h-16   !w-16 hover:cursor-pointer  " />}

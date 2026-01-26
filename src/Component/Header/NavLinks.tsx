@@ -5,15 +5,15 @@ const NavLinks = () => {
     const links = [
         { name: "Find Jobs", url: "/find-jobs" },
         { name: "Find Talent", url: "/find-talent" },
-        { name: "Post Job", url: "/post-job" },
-        { name: "Posted Job", url: "/posted-job" },
+        { name: "Post Job", url: "/post-job/0" },
+        { name: "Posted Job", url: "/posted-jobs/0" },
         { name: "Job History", url: "/job-history" },
         // { name: "SignUp", url: "/signup" },
     ]
     const location = useLocation();
 
     return (
-        <div className="flex text-mine-shaft-300 gap-5 h-full items-center">
+        <div className=" bs-mx:hidden flex text-mine-shaft-300 gap-5 h-full items-center">
             {
 
                 links.map((link, index) => (

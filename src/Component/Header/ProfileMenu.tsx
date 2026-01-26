@@ -10,26 +10,27 @@ import {
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { removeUser } from '../../Slices/UserSlice';
 
 const ProfileMenu = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const profile = useSelector((state:any)=>state.profile);
     const user =useSelector((state:any)=>state.user)
-    console.log(user);
     const [checked, setChecked] = useState(false);
     const [opened, setOpened] = useState(false);
 
     const handleLogout =()=>{
         dispatch(removeUser())
+        navigate("/")
     }
 
     return (
         <Menu opened={opened} onChange={setOpened} shadow="md" width={200}>
             <Menu.Target>
                 <div className="flex items-center gap-2 cursor-pointer">
-                    <div>{user.name}</div>
+                    <div className='xs-mx:hidden'>{user.name}</div>
                     <Avatar src={profile.picture ?`data:image/jpeg;base64,${profile.picture}`: "/Avatar.png"} alt={user.name} />
                 </div>
             </Menu.Target>
