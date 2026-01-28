@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from "axios"; 
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: 'https://jobhunt-backend-ndu9.onrender.com'
 });
 
 axiosInstance.interceptors.request.use(

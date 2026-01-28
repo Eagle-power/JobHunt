@@ -3,7 +3,7 @@ import axiosInstance from "../Interceptor/AxiosInterceptor";
 import { removeUser } from "../Slices/UserSlice";
 
 
-const baseUrl = "http://localhost:8080/auth/"
+const baseUrl = "https://jobhunt-backend-ndu9.onrender.com/auth/"
 
 
 
