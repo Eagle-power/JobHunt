@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Route, Routes, useMatch } from "react-router-dom"
 import Header from "../Component/Header/Header"
 import { Divider } from "@mantine/core"
 import FindJobs from "./FindJobs"
@@ -15,11 +15,14 @@ import ProfilePage from "./ProfilePage"
 import HomePage from "./HomePage"
 import Footer from "../Component/Footer/Footer"
 import ProtectedRoute from "../Services/ProtectedRoute"
-import PublicRoute from "../Services/PublicRoute"
+import PublicRoute from "../Services/PublicRoute" 
+import ChatbotWithRoute from "../Component/Chatbot/ChatbotWithRoute"
 // import { useSelector } from "react-redux"
 
 const AppRoutes = () => {
     // const user =useSelector((state:any) => state.user);
+  
+
     return (
 
         <BrowserRouter>
@@ -46,6 +49,9 @@ const AppRoutes = () => {
                 <Footer />
 
             </div>
+
+            <ChatbotWithRoute />
+
 
         </BrowserRouter>
 

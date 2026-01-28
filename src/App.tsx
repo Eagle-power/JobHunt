@@ -4,27 +4,11 @@ import '@mantine/carousel/styles.css';
 import '@mantine/tiptap/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
-import { createTheme, Divider, MantineProvider } from '@mantine/core';
-import HomePage from './Pages/HomePage';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import FindJobs from './Pages/FindJobs';
-import Header from './Component/Header/Header';
-import Footer from './Component/Footer/Footer';
-import FindTalent from './Pages/FindTalent';
-import TalentProfile from './Pages/TalentProfile';
-import PostJobPage from './Pages/PostJobPage';
-import JobDesc from './Pages/JobDesc';
-import ApplyJobPage from './Pages/ApplyJobPage';
-import CompanyPage from './Pages/CompanyPage';
-import PostedJobPage from './Pages/PostedJobPage';
-import JobHistoryPage from './Pages/JobHistoryPage';
-import SignUpPage from './Pages/SignUpPage';
-import ProfilePage from './Pages/ProfilePage';
+import { createTheme, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Provider } from 'react-redux';
 import Store from './Store';
-import { getItem } from './Services/LocalStorageService';
-import AppRoutes from './Pages/AppRoutes';
+import AppRoutes from './Pages/AppRoutes'; 
 
 function App() {
 
@@ -37,13 +21,16 @@ function App() {
     primaryColor: 'bright-sun',
     primaryShade: 4,
   })
- 
+
+    
+
   return (
 
-    <Provider store={Store}> 
+    <Provider store={Store}>
       <MantineProvider defaultColorScheme='dark' theme={theme} >
         <Notifications position='top-center' limit={1} autoClose={1500} zIndex={1000} />
         <AppRoutes />
+        
       </MantineProvider>
     </Provider>
   );

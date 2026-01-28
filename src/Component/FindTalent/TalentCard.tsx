@@ -21,6 +21,7 @@ const TalentCards = (props: any) => {
 
 
     useEffect(() => {
+         
         if (props.applicantId) {
             getProfile(props.applicantId)
                 .then((res) => {
@@ -62,6 +63,7 @@ const TalentCards = (props: any) => {
 
     }
     return (
+        
         <div className="bg-mine-shaft-900 p-4 w-96 bs-mx:w-[48%] md-mx:w-full flex  flex-col gap-3 rounded-xl hover:shadow-[0_0_5px_1px_black] !shadow-bright-sun-200 transition duration-300 ease-in-out">
             {/* Top section */}
             <div className="flex justify-between">

@@ -1,6 +1,6 @@
 import { Menu, Avatar, Switch } from '@mantine/core';
 import {
-    IconMessageCircle, 
+    IconMessageCircle,
     IconUserCircle,
     IconFileText,
     IconMoon,
@@ -12,26 +12,35 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeUser } from '../../Slices/UserSlice';
+import ResumeModal from "./ResumeModal";
+
 
 const ProfileMenu = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const profile = useSelector((state:any)=>state.profile);
-    const user =useSelector((state:any)=>state.user)
+    const profile = useSelector((state: any) => state.profile);
+    const user = useSelector((state: any) => state.user)
     const [checked, setChecked] = useState(false);
     const [opened, setOpened] = useState(false);
+    const [resumeOpened, setResumeOpened] = useState(false);
 
-    const handleLogout =()=>{
+
+    const handleLogout = () => {
         dispatch(removeUser())
         navigate("/")
     }
+
+    const closeResumeModal = () => {
+        setResumeOpened(false);
+    };
+
 
     return (
         <Menu opened={opened} onChange={setOpened} shadow="md" width={200}>
             <Menu.Target>
                 <div className="flex items-center gap-2 cursor-pointer">
                     <div className='xs-mx:hidden'>{user.name}</div>
-                    <Avatar src={profile.picture ?`data:image/jpeg;base64,${profile.picture}`: "/Avatar.png"} alt={user.name} />
+                    <Avatar src={profile.picture ? `data:image/jpeg;base64,${profile.picture}` : "/Avatar.png"} alt={user.name} />
                 </div>
             </Menu.Target>
 
@@ -44,7 +53,7 @@ const ProfileMenu = () => {
                 <Menu.Item leftSection={<IconMessageCircle size={14} />}>
                     Messages
                 </Menu.Item>
-                <Menu.Item leftSection={<IconFileText size={14} />}>
+                <Menu.Item leftSection={<IconFileText size={14} />} onClick={() => setResumeOpened(true)}>
                     Resume
                 </Menu.Item>
                 <Menu.Item
@@ -73,7 +82,14 @@ const ProfileMenu = () => {
                     Logout
                 </Menu.Item>
             </Menu.Dropdown>
+            <ResumeModal
+                opened={resumeOpened}
+                close={closeResumeModal}
+            />
+
         </Menu>
+
+
     );
 }
 

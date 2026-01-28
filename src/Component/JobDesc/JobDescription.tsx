@@ -45,7 +45,7 @@ const JobDescription = (props: any) => {
     }
 
     useEffect(() => {
-        console.log("hello beta", props.applicants)
+        // console.log("hello beta", props.applicants)
         if (props.applicants?.filter((applicant: any) => applicant.applicantId === user.id).length > 0) {
             setApplied(true);
         } else {
