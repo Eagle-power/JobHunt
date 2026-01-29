@@ -55,7 +55,7 @@ const jobCategory = [
 
 const work = [
     {
-        "name": "Build Your resume",
+        "name": "Build your resume",
         "desc": "Create a standout resume with your skills."
     },
     {
