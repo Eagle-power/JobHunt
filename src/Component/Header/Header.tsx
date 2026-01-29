@@ -39,25 +39,36 @@ const Header = () => {
     }, [navigate])
 
     useEffect(() => {
-        if (token !== "") {
-            if(localStorage.getItem("token") !=""){
+        const storedToken = localStorage.getItem("token");
 
-                const decoded = jwtDecode(localStorage.getItem("token")||"");
-                dispatch(setUser({ ...decoded, email: decoded.sub }))
-            }
+        if (!storedToken) return; // hard stop
 
+        // JWT must have 3 parts
+        if (storedToken.split(".").length !== 3) {
+            console.error("Invalid JWT format");
+            return;
         }
-        if (!user || !user.id) return;
 
-        if(user?.profileId){
-
-            getProfile(user?.profileId).then((data: any) => {
-                dispatch(setProfile(data));
-            }).catch((error: any) => {
-                console.log(error);
-            })
+        try {
+            const decoded: any = jwtDecode(storedToken);
+            dispatch(setUser({ ...decoded, email: decoded.sub }));
+        } catch (err) {
+            console.error("JWT decode failed", err);
+            localStorage.removeItem("token");
         }
-    }, [token, navigate]);
+
+        if (user?.profileId) {
+            getProfile(user.profileId)
+                .then((data: any) => dispatch(setProfile(data)))
+                .catch(console.log);
+        }
+
+    }, [token]);
+
+    if (location.pathname === "/login" || location.pathname === "/signup") {
+        return null;
+    }
+
 
     return location.pathname !== "/signup" && location.pathname !== "/login" ? (
         <div className="flex w-full px-6 text-white bg-mine-shaft-950 h-20 justify-between items-center font-[Nunito] ">
@@ -67,12 +78,12 @@ const Header = () => {
                     Job Hunt
                 </div>
             </div>
-            {NavLinks()}
+            {<NavLinks />}
             <div className="flex  gap-5 items-center">
 
                 {
                     user ? <ProfileMenu /> : <Link to="/login">
-                        <Button variant="subtle" color="bright-sun.4" >
+                        <Button type="button" variant="subtle" color="bright-sun.4" >
                             Login
                         </Button>
                     </Link>

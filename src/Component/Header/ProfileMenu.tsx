@@ -18,8 +18,10 @@ import ResumeModal from "./ResumeModal";
 const ProfileMenu = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const profile = useSelector((state: any) => state.profile);
     const user = useSelector((state: any) => state.user)
+
     const [checked, setChecked] = useState(false);
     const [opened, setOpened] = useState(false);
     const [resumeOpened, setResumeOpened] = useState(false);
@@ -27,6 +29,7 @@ const ProfileMenu = () => {
 
     const handleLogout = () => {
         dispatch(removeUser())
+        window.location.reload();
         navigate("/")
     }
 
